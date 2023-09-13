@@ -1,9 +1,11 @@
 ### Проблема потери значения в callback функции дочерних элементов
 
 Имеются 2 компонента:\
-[Component2]() - Родительский компонент. Его задача сохранять и изменять значение value, а так же показывать и скрывать
+[Component2](https://github.com/DmitryKRTV/react-state-problem/blob/master/src/components/Component1/Component1.tsx) -
+Родительский компонент. Его задача сохранять и изменять значение value, а так же показывать и скрывать
 Component2 передавая closeCallback в Component2.\
-[Component2]() - Дочерний компонент. Должен закрываться вызывая `closeCallback` из props, который передаётся из
+[Component2](https://github.com/DmitryKRTV/react-state-problem/blob/master/src/components/Component2/Component2.tsx) -
+Дочерний компонент. Должен закрываться вызывая `closeCallback` из props, который передаётся из
 Component2.\
 `closeCallback` - Закрывает Component2, а так же имеет ссылку на value в области видимости Component1.\
 
