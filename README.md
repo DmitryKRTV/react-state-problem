@@ -1,46 +1,31 @@
-# Getting Started with Create React App
+### Проблема потери значения в callback функции дочерних элементов
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Имеются 2 компонента:\
+[Component2]() - Родительский компонент. Его задача сохранять и изменять значение value, а так же показывать и скрывать
+Component2 передавая closeCallback в Component2.\
+[Component2]() - Дочерний компонент. Должен закрываться вызывая `closeCallback` из props, который передаётся из
+Component2.\
+`closeCallback` - Закрывает Component2, а так же имеет ссылку на value в области видимости Component1.\
 
-## Available Scripts
+Способы отображения Component2:
 
-In the project directory, you can run:
+1) Отображать Component2 с помощью сохранения его в state, и отображения state-значение в методе render в Component1;
+2) Отображать Component2 в зависимости от флага, который сохраняется в state, а Component2 в методе render
+   отображается в зависимости от флага;
 
-### `yarn start`
+При отображении способом 1, выполнив следующие действия описанные ниже, возникнет неявная проблема:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- Открыть Component2;
+- Изменить state в Component1 (в нашем случае это изменение value в Component1);
+- Закрыть Component2, используя `closeCallback`;
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Описание проблемы:\
+Значение value (ссылка на value в Component1), которое отображается в `closeCallback` **не будет** соответствовать
+актуальному значению value в Component1. Это связано с тем, что при вызове render в Component1, Component2 не
+пересоздаётся, так как он сохранён в state, соответственно и все ссылки на value в Component1 будут ссылаться на
+значение value которое было актуально на состояние value при открытии Component2 и записи его в state.
 
-### `yarn test`
+Способ 2 решает проблему способа 1. При вызове метода render в Component1, Component2 будет перерисовываться и
+соответственно обновлять `closeCallback`, поэтому значения value в методе `closeCallback` всегда будут актуальны.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+*Данную проблему легко заметить, если обратить внимание на console.log Component1 и Component2* 
