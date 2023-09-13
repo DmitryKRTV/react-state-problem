@@ -6,7 +6,7 @@
 Component2.\
 [Component2](https://github.com/DmitryKRTV/react-state-problem/blob/master/src/components/Component2/Component2.tsx) -
 Дочерний компонент. Должен закрываться вызывая `closeCallback` из props, который передаётся из
-Component2.\
+Component1.\
 `closeCallback` - Закрывает Component2, а так же имеет ссылку на value в области видимости Component1.\
 
 Способы отображения Component2:
